@@ -51,7 +51,6 @@ npm run test:large    # needs roughly 8 GiB temporary disk space; not for an SD 
 
 No npm package installation is needed for building or Node tests. `index.html` is self-contained; `Wii-SD-Manager.html` is an identical portable copy. For reliable native folder access, use the published HTTPS page or localhost rather than an embedded preview. `dev.html` uses relative JS modules on a local server.
 
-The [test report](TEST-REPORT.md) distinguishes **real disk copies**, **browser UI tests with simulated folder APIs**, and **native picker / hardware checks that were not available**. It does not claim validation on a physical Wii or SD card.
 
 ## Repository map
 
