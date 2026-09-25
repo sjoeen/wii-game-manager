@@ -8,19 +8,6 @@ The earlier small-ZIP editor is retained as a fallback, not the way to manage a 
 
 ![Wii-style home screen](screenshots/desktop-menu.png)
 
-## Use the published website
-
-Expected project address: **https://sjoeen.github.io/wii-game-manager/**. This package does not publish itself or change any GitHub account. See [START-HERE.md](START-HERE.md) to publish/update it.
-
-Use the top-level HTTPS page in a browser exposing `showDirectoryPicker`, writable file handles and Web Locks, such as a current desktop Chrome or Edge. Not every browser or preview supports these APIs. The page checks capabilities and offers small-ZIP fallback when direct access is unavailable. Browser policies, private modes, protected locations and removable-device access may impose additional restrictions.
-
-1. Back up your card. For a first trial, **select a copy of the card in a normal computer folder**, not the only copy.
-2. Click **Open SD / USB**. Select the card root or the backup folder containing `apps`, `wbfs`, or related Wii folders. Initially only reading is requested.
-3. Use **Games**, **ROM Hacks**, or **All Files**. Games are displayed in a separate library screen, not in the empty home-menu channels.
-4. Add games or stage removals. **Undo** reverses the last pending edit. **Discard staged** discards the plan. Neither changes disk files.
-5. Click **Apply changes**, review relative paths, acknowledge permanent removals, and click **Apply to selected folder**. Allow the browser's write permission request. Keep the drive connected and the tab open until the operation report appears.
-
-**Applied removals are permanent.** This app is not a replacement for a separate backup. A durable journal supports recovery, but multi-file changes cannot be made completely atomic in a browser. See [Safety and recovery](docs/SAFETY-AND-RECOVERY.md).
 
 ## Inputs and limits
 
