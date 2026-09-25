@@ -1,0 +1,977 @@
+
+> wii-game-manager@3.0.0 verify
+> npm run check:build && npm test
+
+
+> wii-game-manager@3.0.0 check:build
+> node build.mjs --check
+
+Verified 5 generated files; index.html is 266,493 bytes and needs no external assets.
+
+> wii-game-manager@3.0.0 test
+> node --test test/model.test.mjs test/zero-games.test.mjs test/upload-specs.test.mjs test/site.test.mjs test/folder.test.mjs
+
+TAP version 13
+# Subtest: existing Wii folder opens by metadata, without reading game bytes
+ok 1 - existing Wii folder opens by metadata, without reading game bytes
+  ---
+  duration_ms: 7.741333
+  type: 'test'
+  ...
+# Subtest: 24 GiB inventory has no combined ZIP32 cap and reads no game data
+ok 2 - 24 GiB inventory has no combined ZIP32 cap and reads no game data
+  ---
+  duration_ms: 18.466265
+  type: 'test'
+  ...
+# Subtest: existing apps-only card works but an empty folder is rejected
+ok 3 - existing apps-only card works but an empty folder is rejected
+  ---
+  duration_ms: 1.281694
+  type: 'test'
+  ...
+# Subtest: wrong parent folder and apps subfolder get an actionable rejection
+ok 4 - wrong parent folder and apps subfolder get an actionable rejection
+  ---
+  duration_ms: 0.706657
+  type: 'test'
+  ...
+# Subtest: OS metadata folders are skipped and not touched
+ok 5 - OS metadata folders are skipped and not touched
+  ---
+  duration_ms: 1.381425
+  type: 'test'
+  ...
+# Subtest: case-colliding card paths are refused before edits
+ok 6 - case-colliding card paths are refused before edits
+  ---
+  duration_ms: 0.326953
+  type: 'test'
+  ...
+# Subtest: unsafe and nonportable disk paths are refused
+ok 7 - unsafe and nonportable disk paths are refused
+  ---
+  duration_ms: 0.427866
+  type: 'test'
+  ...
+# Subtest: adding a game stages lazy sources with no disk writes
+ok 8 - adding a game stages lazy sources with no disk writes
+  ---
+  duration_ms: 1.849982
+  type: 'test'
+  ...
+# Subtest: adding then removing an uncommitted game leaves no pending disk change
+ok 9 - adding then removing an uncommitted game leaves no pending disk change
+  ---
+  duration_ms: 1.160742
+  type: 'test'
+  ...
+# Subtest: staged game removal includes split companions, not unrelated files in its folder
+ok 10 - staged game removal includes split companions, not unrelated files in its folder
+  ---
+  duration_ms: 1.695599
+  type: 'test'
+  ...
+# Subtest: duplicate IDs and destination files are rejected atomically
+ok 11 - duplicate IDs and destination files are rejected atomically
+  ---
+  duration_ms: 0.837935
+  type: 'test'
+  ...
+# Subtest: split files must include main and consecutive parts
+ok 12 - split files must include main and consecutive parts
+  ---
+  duration_ms: 2.148752
+  type: 'test'
+  ...
+# Subtest: large WBFS is sliced into FAT32-sized sources without buffering its contents
+ok 13 - large WBFS is sliced into FAT32-sized sources without buffering its contents
+  ---
+  duration_ms: 2.270236
+  type: 'test'
+  ...
+# Subtest: oversized ISO and fake renamed WBFS are rejected with conversion advice
+ok 14 - oversized ISO and fake renamed WBFS are rejected with conversion advice
+  ---
+  duration_ms: 1.006369
+  type: 'test'
+  ...
+# Subtest: existing uppercase WBFS directory is reused, never duplicated
+ok 15 - existing uppercase WBFS directory is reused, never duplicated
+  ---
+  duration_ms: 0.532864
+  type: 'test'
+  ...
+# Subtest: a blocking file or existing empty folder prevents a game destination
+ok 16 - a blocking file or existing empty folder prevents a game destination
+  ---
+  duration_ms: 0.903844
+  type: 'test'
+  ...
+# Subtest: real apply writes exact bytes and keeps apps/settings/saves and source unchanged
+ok 17 - real apply writes exact bytes and keeps apps/settings/saves and source unchanged
+  ---
+  duration_ms: 14.195428
+  type: 'test'
+  ...
+# Subtest: removal-only apply does not copy or read whole game backups
+ok 18 - removal-only apply does not copy or read whole game backups
+  ---
+  duration_ms: 8.437754
+  type: 'test'
+  ...
+# Subtest: removing and adding at the same original game path requires separate Apply
+ok 19 - removing and adding at the same original game path requires separate Apply
+  ---
+  duration_ms: 0.844805
+  type: 'test'
+  ...
+# Subtest: writes are verified before any confirmed removals start
+ok 20 - writes are verified before any confirmed removals start
+  ---
+  duration_ms: 3.590183
+  type: 'test'
+  ...
+# Subtest: source bytes are copied with bounded chunks and backpressure
+ok 21 - source bytes are copied with bounded chunks and backpressure
+  ---
+  duration_ms: 95.137941
+  type: 'test'
+  ...
+# Subtest: CRC32 implementation matches the standard reference vector
+ok 22 - CRC32 implementation matches the standard reference vector
+  ---
+  duration_ms: 0.261645
+  type: 'test'
+  ...
+# Subtest: metadata changes before apply abort before creating a journal or modifying games
+ok 23 - metadata changes before apply abort before creating a journal or modifying games
+  ---
+  duration_ms: 1.304119
+  type: 'test'
+  ...
+# Subtest: new outside files before apply trigger a refresh rather than overwrite
+ok 24 - new outside files before apply trigger a refresh rather than overwrite
+  ---
+  duration_ms: 0.954421
+  type: 'test'
+  ...
+# Subtest: write permission failure cannot produce a success result
+ok 25 - write permission failure cannot produce a success result
+  ---
+  duration_ms: 9.207035
+  type: 'test'
+  ...
+# Subtest: out-of-space on new game rolls back and never starts reviewed removals
+ok 26 - out-of-space on new game rolls back and never starts reviewed removals
+  ---
+  duration_ms: 3.641455
+  type: 'test'
+  ...
+# Subtest: cancellation between chunks removes new placeholders and keeps old files
+ok 27 - cancellation between chunks removes new placeholders and keeps old files
+  ---
+  duration_ms: 3.67781
+  type: 'test'
+  ...
+# Subtest: cancel before start performs zero writes
+ok 28 - cancel before start performs zero writes
+  ---
+  duration_ms: 0.926859
+  type: 'test'
+  ...
+# Subtest: corrupted copied bytes are detected and rolled back, not called success
+ok 29 - corrupted copied bytes are detected and rolled back, not called success
+  ---
+  duration_ms: 9.449692
+  type: 'test'
+  ...
+# Subtest: drive loss after commit leaves a journal and reopens into explicit rollback recovery
+ok 30 - drive loss after commit leaves a journal and reopens into explicit rollback recovery
+  ---
+  duration_ms: 4.423536
+  type: 'test'
+  ...
+# Subtest: drive loss during permanent deletion offers roll-forward, not imaginary undo
+ok 31 - drive loss during permanent deletion offers roll-forward, not imaginary undo
+  ---
+  duration_ms: 6.92451
+  type: 'test'
+  ...
+# Subtest: recovery refuses to remove a new outside replacement at a journal path
+ok 32 - recovery refuses to remove a new outside replacement at a journal path
+  ---
+  duration_ms: 5.520792
+  type: 'test'
+  ...
+# Subtest: invalid recovery JSON is blocked, not executed
+ok 33 - invalid recovery JSON is blocked, not executed
+  ---
+  duration_ms: 0.567716
+  type: 'test'
+  ...
+# Subtest: reserved or duplicate journal paths and mismatched backup paths are blocked
+ok 34 - reserved or duplicate journal paths and mismatched backup paths are blocked
+  ---
+  duration_ms: 0.295816
+  type: 'test'
+  ...
+# Subtest: orphan recovery directory gives explicit manual-inspection advice
+ok 35 - orphan recovery directory gives explicit manual-inspection advice
+  ---
+  duration_ms: 7.702355
+  type: 'test'
+  ...
+# Subtest: folder hack add/apply/reopen/remove restores exact original configuration
+ok 36 - folder hack add/apply/reopen/remove restores exact original configuration
+  ---
+  duration_ms: 50.439729
+  type: 'test'
+  ...
+# Subtest: hack write failure restores replaced originals using on-disk rollback
+ok 37 - hack write failure restores replaced originals using on-disk rollback
+  ---
+  duration_ms: 7.438296
+  type: 'test'
+  ...
+# Subtest: tracked packages cannot overlap or replace manager metadata
+ok 38 - tracked packages cannot overlap or replace manager metadata
+  ---
+  duration_ms: 1.853006
+  type: 'test'
+  ...
+# Subtest: missing persistent hack backup blocks removal before any disk mutation
+ok 39 - missing persistent hack backup blocks removal before any disk mutation
+  ---
+  duration_ms: 6.343604
+  type: 'test'
+  ...
+# Subtest: mod ZIP package cap is separate from total card size
+ok 40 - mod ZIP package cap is separate from total card size
+  ---
+  duration_ms: 0.497962
+  type: 'test'
+  ...
+# Subtest: two game files in one directory remain distinct; unrelated notes stay
+ok 41 - two game files in one directory remain distinct; unrelated notes stay
+  ---
+  duration_ms: 0.567426
+  type: 'test'
+  ...
+# Subtest: normalization retains legitimate names and rejects traversal
+ok 42 - normalization retains legitimate names and rejects traversal
+  ---
+  duration_ms: 1.576409
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "../evil.txt"
+ok 43 - reject unsafe archive path "../evil.txt"
+  ---
+  duration_ms: 0.369187
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "/absolute.txt"
+ok 44 - reject unsafe archive path "/absolute.txt"
+  ---
+  duration_ms: 0.182676
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "C:/drive.txt"
+ok 45 - reject unsafe archive path "C:/drive.txt"
+  ---
+  duration_ms: 0.189466
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "apps/../../evil"
+ok 46 - reject unsafe archive path "apps/../../evil"
+  ---
+  duration_ms: 0.227954
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "apps\\\\file.txt"
+ok 47 - reject unsafe archive path "apps\\\\file.txt"
+  ---
+  duration_ms: 0.114343
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "apps/.. /evil"
+ok 48 - reject unsafe archive path "apps/.. /evil"
+  ---
+  duration_ms: 0.21831
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "apps//file"
+ok 49 - reject unsafe archive path "apps//file"
+  ---
+  duration_ms: 0.149095
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "apps/.hidden/../evil"
+ok 50 - reject unsafe archive path "apps/.hidden/../evil"
+  ---
+  duration_ms: 0.372442
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "a\\u0000b"
+ok 51 - reject unsafe archive path "a\\u0000b"
+  ---
+  duration_ms: 0.498753
+  type: 'test'
+  ...
+# Subtest: reject unsafe archive path "apps/trailing./file"
+ok 52 - reject unsafe archive path "apps/trailing./file"
+  ---
+  duration_ms: 0.212671
+  type: 'test'
+  ...
+# Subtest: does not mistake six-letter game titles for IDs
+ok 53 - does not mistake six-letter game titles for IDs
+  ---
+  duration_ms: 0.522249
+  type: 'test'
+  ...
+# Subtest: destination keeps conventional ID-based layout
+ok 54 - destination keeps conventional ID-based layout
+  ---
+  duration_ms: 1.991195
+  type: 'test'
+  ...
+# Subtest: wrapper detection never strips a real apps folder
+ok 55 - wrapper detection never strips a real apps folder
+  ---
+  duration_ms: 0.212591
+  type: 'test'
+  ...
+# Subtest: size labels use binary units
+ok 56 - size labels use binary units
+  ---
+  duration_ms: 1.27234
+  type: 'test'
+  ...
+# Subtest: detects flat and folder games with split companions
+ok 57 - detects flat and folder games with split companions
+  ---
+  duration_ms: 7.790948
+  type: 'test'
+  ...
+# Subtest: Riivolution config files are not misidentified as hacks
+ok 58 - Riivolution config files are not misidentified as hacks
+  ---
+  duration_ms: 0.335927
+  type: 'test'
+  ...
+# Subtest: demo includes exactly 2 games and 1 hack, with no real game data
+ok 59 - demo includes exactly 2 games and 1 hack, with no real game data
+  ---
+  duration_ms: 23.417161
+  type: 'test'
+  ...
+# Subtest: model clone retains the JSZip prototype and independent file map
+ok 60 - model clone retains the JSZip prototype and independent file map
+  ---
+  duration_ms: 4.329784
+  type: 'test'
+  ...
+# Subtest: unmodified ZIP round-trip preserves every file byte
+ok 61 - unmodified ZIP round-trip preserves every file byte
+  ---
+  duration_ms: 5.939334
+  type: 'test'
+  ...
+# Subtest: empty ZIP is valid and can accept games
+ok 62 - empty ZIP is valid and can accept games
+  ---
+  duration_ms: 1.791048
+  type: 'test'
+  ...
+# Subtest: added game size is correct before export
+ok 63 - added game size is correct before export
+  ---
+  duration_ms: 1.115524
+  type: 'test'
+  ...
+# Subtest: adds complete split-WBFS set and removes all its parts
+ok 64 - adds complete split-WBFS set and removes all its parts
+  ---
+  duration_ms: 2.455976
+  type: 'test'
+  ...
+# Subtest: rejects orphan split parts without editing original
+ok 65 - rejects orphan split parts without editing original
+  ---
+  duration_ms: 4.978944
+  type: 'test'
+  ...
+# Subtest: rejects gaps in split-WBFS numbering
+ok 66 - rejects gaps in split-WBFS numbering
+  ---
+  duration_ms: 3.553202
+  type: 'test'
+  ...
+# Subtest: rejects duplicate game ID instead of silently overwriting
+ok 67 - rejects duplicate game ID instead of silently overwriting
+  ---
+  duration_ms: 3.148762
+  type: 'test'
+  ...
+# Subtest: batch add is atomic when a later game is invalid
+ok 68 - batch add is atomic when a later game is invalid
+  ---
+  duration_ms: 4.31352
+  type: 'test'
+  ...
+# Subtest: rejects unsupported or empty game input
+ok 69 - rejects unsupported or empty game input
+  ---
+  duration_ms: 5.159867
+  type: 'test'
+  ...
+# Subtest: game removal preserves unrelated app and configuration bytes
+ok 70 - game removal preserves unrelated app and configuration bytes
+  ---
+  duration_ms: 10.775523
+  type: 'test'
+  ...
+# Subtest: untracked hack removal leaves external mod directories alone
+ok 71 - untracked hack removal leaves external mod directories alone
+  ---
+  duration_ms: 5.416805
+  type: 'test'
+  ...
+# Subtest: managed hack install/export/reimport/remove restores exact original bytes
+ok 72 - managed hack install/export/reimport/remove restores exact original bytes
+  ---
+  duration_ms: 16.418609
+  type: 'test'
+  ...
+# Subtest: case-insensitive replacement uses original path and restores it
+ok 73 - case-insensitive replacement uses original path and restores it
+  ---
+  duration_ms: 3.132647
+  type: 'test'
+  ...
+# Subtest: tracked package overlap is blocked
+ok 74 - tracked package overlap is blocked
+  ---
+  duration_ms: 1.082875
+  type: 'test'
+  ...
+# Subtest: missing backup aborts removal transaction
+ok 75 - missing backup aborts removal transaction
+  ---
+  duration_ms: 2.466803
+  type: 'test'
+  ...
+# Subtest: failed mid-package data read does not partially modify archive
+ok 76 - failed mid-package data read does not partially modify archive
+  ---
+  duration_ms: 12.934581
+  type: 'test'
+  ...
+# Subtest: package cannot overwrite manager metadata
+ok 77 - package cannot overwrite manager metadata
+  ---
+  duration_ms: 2.323206
+  type: 'test'
+  ...
+# Subtest: cannot remove game paths owned by a tracked package
+ok 78 - cannot remove game paths owned by a tracked package
+  ---
+  duration_ms: 2.765754
+  type: 'test'
+  ...
+# Subtest: package cannot place a file over an existing directory
+ok 79 - package cannot place a file over an existing directory
+  ---
+  duration_ms: 1.695609
+  type: 'test'
+  ...
+# Subtest: package cannot place a folder under an existing file
+ok 80 - package cannot place a folder under an existing file
+  ---
+  duration_ms: 1.588277
+  type: 'test'
+  ...
+# Subtest: wrapper stripping preserves content and reads the nested manifest
+ok 81 - wrapper stripping preserves content and reads the nested manifest
+  ---
+  duration_ms: 2.941099
+  type: 'test'
+  ...
+# Subtest: actual ZIP traversal is rejected using unsafeOriginalName
+ok 82 - actual ZIP traversal is rejected using unsafeOriginalName
+  ---
+  duration_ms: 1.681467
+  type: 'test'
+  ...
+# Subtest: case-colliding ZIP entries are rejected
+ok 83 - case-colliding ZIP entries are rejected
+  ---
+  duration_ms: 1.110296
+  type: 'test'
+  ...
+# Subtest: file/folder collisions inside a ZIP are rejected
+ok 84 - file/folder collisions inside a ZIP are rejected
+  ---
+  duration_ms: 0.903643
+  type: 'test'
+  ...
+# Subtest: ZIP symbolic links are rejected
+ok 85 - ZIP symbolic links are rejected
+  ---
+  duration_ms: 0.84811
+  type: 'test'
+  ...
+# Subtest: malformed archive is rejected
+ok 86 - malformed archive is rejected
+  ---
+  duration_ms: 0.183367
+  type: 'test'
+  ...
+# Subtest: small archive CRC corruption is rejected
+ok 87 - small archive CRC corruption is rejected
+  ---
+  duration_ms: 3.98887
+  type: 'test'
+  ...
+# Subtest: invalid or malicious manifest backup paths are rejected
+ok 88 - invalid or malicious manifest backup paths are rejected
+  ---
+  duration_ms: 0.29123
+  type: 'test'
+  ...
+# Subtest: oversized declared archive is stopped without allocating game data
+ok 89 - oversized declared archive is stopped without allocating game data
+  ---
+  duration_ms: 1.753907
+  type: 'test'
+  ...
+# Subtest: UTF-8 names, binary content, and empty directories survive round-trip
+ok 90 - UTF-8 names, binary content, and empty directories survive round-trip
+  ---
+  duration_ms: 2.676329
+  type: 'test'
+  ...
+# Subtest: all builds have unique element IDs and no external assets
+ok 91 - all builds have unique element IDs and no external assets
+  ---
+  duration_ms: 1.862841
+  type: 'test'
+  ...
+# Subtest: Pages entry is complete and byte-identical to the offline copy
+ok 92 - Pages entry is complete and byte-identical to the offline copy
+  ---
+  duration_ms: 7.448111
+  type: 'test'
+  ...
+# Subtest: production HTML has no remote or separate script/style/image dependencies
+ok 93 - production HTML has no remote or separate script/style/image dependencies
+  ---
+  duration_ms: 3.144546
+  type: 'test'
+  ...
+# Subtest: bundled scripts have valid classic JavaScript syntax without module imports
+ok 94 - bundled scripts have valid classic JavaScript syntax without module imports
+  ---
+  duration_ms: 5.891557
+  type: 'test'
+  ...
+# Subtest: GitHub Pages bypass marker is present and empty
+ok 95 - GitHub Pages bypass marker is present and empty
+  ---
+  duration_ms: 2.578541
+  type: 'test'
+  ...
+# Subtest: the package does not configure an unintended custom domain
+ok 96 - the package does not configure an unintended custom domain
+  ---
+  duration_ms: 1.783763
+  type: 'test'
+  ...
+# Subtest: visible release version matches package metadata
+ok 97 - visible release version matches package metadata
+  ---
+  duration_ms: 0.192641
+  type: 'test'
+  ...
+# Subtest: both source and generated documents retain all channels and dialogs
+ok 98 - both source and generated documents retain all channels and dialogs
+  ---
+  duration_ms: 2.452922
+  type: 'test'
+  ...
+# Subtest: modular development HTML references bundled, relative files
+ok 99 - modular development HTML references bundled, relative files
+  ---
+  duration_ms: 3.806485
+  type: 'test'
+  ...
+# Subtest: all application module imports resolve inside this repository
+ok 100 - all application module imports resolve inside this repository
+  ---
+  duration_ms: 11.852203
+  type: 'test'
+  ...
+# Subtest: runtime code contains no analytics, upload endpoint or network API
+ok 101 - runtime code contains no analytics, upload endpoint or network API
+  ---
+  duration_ms: 9.210015
+  type: 'test'
+  ...
+# Subtest: third-party licensing notices survive the standalone build
+ok 102 - third-party licensing notices survive the standalone build
+  ---
+  duration_ms: 9.120194
+  type: 'test'
+  ...
+# Subtest: no npm runtime dependency is needed to host or build
+ok 103 - no npm runtime dependency is needed to host or build
+  ---
+  duration_ms: 8.304814
+  type: 'test'
+  ...
+# Subtest: deployment instructions and user documentation are shipped
+ok 104 - deployment instructions and user documentation are shipped
+  ---
+  duration_ms: 7.836808
+  type: 'test'
+  ...
+# Subtest: CI checks do not request deployment write access or custom secrets
+ok 105 - CI checks do not request deployment write access or custom secrets
+  ---
+  duration_ms: 1.958871
+  type: 'test'
+  ...
+# Subtest: HTTP GET / serves the exact production bytes and HTML MIME type
+ok 106 - HTTP GET / serves the exact production bytes and HTML MIME type
+  ---
+  duration_ms: 51.210507
+  type: 'test'
+  ...
+# Subtest: HTTP HEAD has the correct size with no response body
+ok 107 - HTTP HEAD has the correct size with no response body
+  ---
+  duration_ms: 16.765823
+  type: 'test'
+  ...
+# Subtest: the offline HTML can also be served directly
+ok 108 - the offline HTML can also be served directly
+  ---
+  duration_ms: 11.335427
+  type: 'test'
+  ...
+# Subtest: modular JS/CSS resources serve with suitable types and unchanged bytes
+ok 109 - modular JS/CSS resources serve with suitable types and unchanged bytes
+  ---
+  duration_ms: 39.023244
+  type: 'test'
+  ...
+# Subtest: encoded fixture filenames and ZIP downloads are served correctly
+ok 110 - encoded fixture filenames and ZIP downloads are served correctly
+  ---
+  duration_ms: 5.776878
+  type: 'test'
+  ...
+# Subtest: the self-contained homepage works at a project-style subpath too
+ok 111 - the self-contained homepage works at a project-style subpath too
+  ---
+  duration_ms: 4.659222
+  type: 'test'
+  ...
+# Subtest: a missing path returns the custom 404 page with a real 404 status
+ok 112 - a missing path returns the custom 404 page with a real 404 status
+  ---
+  duration_ms: 3.444949
+  type: 'test'
+  ...
+# Subtest: local server is read-only and does not expose private dot paths
+ok 113 - local server is read-only and does not expose private dot paths
+  ---
+  duration_ms: 10.142847
+  type: 'test'
+  ...
+# Subtest: local server rejects invalid mount configuration
+ok 114 - local server rejects invalid mount configuration
+  ---
+  duration_ms: 0.385602
+  type: 'test'
+  ...
+# Subtest: build freshness check rejects a stale homepage and rebuild restores exact bytes
+ok 115 - build freshness check rejects a stale homepage and rebuild restores exact bytes
+  ---
+  duration_ms: 271.88318
+  type: 'test'
+  ...
+# Subtest: package and lock metadata identify the requested project repository
+ok 116 - package and lock metadata identify the requested project repository
+  ---
+  duration_ms: 3.047779
+  type: 'test'
+  ...
+# Subtest: project preview command mounts the same path as the published project
+ok 117 - project preview command mounts the same path as the published project
+  ---
+  duration_ms: 0.131889
+  type: 'test'
+  ...
+# Subtest: project URL without trailing slash redirects into the project
+ok 118 - project URL without trailing slash redirects into the project
+  ---
+  duration_ms: 8.273406
+  type: 'test'
+  ...
+# Subtest: development assets and encoded demo downloads stay within the project subpath
+ok 119 - development assets and encoded demo downloads stay within the project subpath
+  ---
+  duration_ms: 20.436092
+  type: 'test'
+  ...
+# Subtest: nested project 404 returns to this app instead of the account homepage
+ok 120 - nested project 404 returns to this app instead of the account homepage
+  ---
+  duration_ms: 4.725982
+  type: 'test'
+  ...
+# Subtest: empty-card creation has no UI or action in the released app
+ok 121 - empty-card creation has no UI or action in the released app
+  ---
+  duration_ms: 1.036995
+  type: 'test'
+  ...
+# Subtest: one folder and three explicit upload inputs have formats, examples, and required hints
+ok 122 - one folder and three explicit upload inputs have formats, examples, and required hints
+  ---
+  duration_ms: 1.485502
+  type: 'test'
+  ...
+# Subtest: only games permit selecting several files
+ok 123 - only games permit selecting several files
+  ---
+  duration_ms: 0.166211
+  type: 'test'
+  ...
+# Subtest: SD ZIP validation accepts uppercase and generic MIME metadata
+ok 124 - SD ZIP validation accepts uppercase and generic MIME metadata
+  ---
+  duration_ms: 0.347294
+  type: 'test'
+  ...
+# Subtest: valid empty-ZIP metadata is not confused with a zero-byte file
+ok 125 - valid empty-ZIP metadata is not confused with a zero-byte file
+  ---
+  duration_ms: 0.41066
+  type: 'test'
+  ...
+# Subtest: SD selection rejects other formats and gives the correct route
+ok 126 - SD selection rejects other formats and gives the correct route
+  ---
+  duration_ms: 0.300083
+  type: 'test'
+  ...
+# Subtest: SD and hack selection both reject multiple archives
+ok 127 - SD and hack selection both reject multiple archives
+  ---
+  duration_ms: 0.305741
+  type: 'test'
+  ...
+# Subtest: a missing selection has an actionable error for each input
+ok 128 - a missing selection has an actionable error for each input
+  ---
+  duration_ms: 0.214364
+  type: 'test'
+  ...
+# Subtest: unknown inputs do not silently fall back to an unrelated picker
+ok 129 - unknown inputs do not silently fall back to an unrelated picker
+  ---
+  duration_ms: 0.114232
+  type: 'test'
+  ...
+# Subtest: missing file names are rejected as bad selections
+ok 130 - missing file names are rejected as bad selections
+  ---
+  duration_ms: 0.304339
+  type: 'test'
+  ...
+# Subtest: game selection accepts files in either supported main format
+ok 131 - game selection accepts files in either supported main format
+  ---
+  duration_ms: 0.508387
+  type: 'test'
+  ...
+# Subtest: game names do not need an invented ID to pass file selection
+ok 132 - game names do not need an invented ID to pass file selection
+  ---
+  duration_ms: 0.163236
+  type: 'test'
+  ...
+# Subtest: split game files are accepted together, including later numbered parts
+ok 133 - split game files are accepted together, including later numbered parts
+  ---
+  duration_ms: 0.096315
+  type: 'test'
+  ...
+# Subtest: split parts by themselves point to the matching WBFS
+ok 134 - split parts by themselves point to the matching WBFS
+  ---
+  duration_ms: 0.097937
+  type: 'test'
+  ...
+# Subtest: game selection rejects compressed archives without silently skipping them
+ok 135 - game selection rejects compressed archives without silently skipping them
+  ---
+  duration_ms: 0.179521
+  type: 'test'
+  ...
+# Subtest: mixed game and wrong-format selection is rejected atomically
+ok 136 - mixed game and wrong-format selection is rejected atomically
+  ---
+  duration_ms: 0.374695
+  type: 'test'
+  ...
+# Subtest: other platform ROMs, patches and executables are not Add Game files
+ok 137 - other platform ROMs, patches and executables are not Add Game files
+  ---
+  duration_ms: 0.232832
+  type: 'test'
+  ...
+# Subtest: hack file selection accepts a real ZIP filename
+ok 138 - hack file selection accepts a real ZIP filename
+  ---
+  duration_ms: 0.123086
+  type: 'test'
+  ...
+# Subtest: hack raw patch selection explains that it cannot apply patches
+ok 139 - hack raw patch selection explains that it cannot apply patches
+  ---
+  duration_ms: 0.187243
+  type: 'test'
+  ...
+# Subtest: a ready-patched image selected as a hack points to Add Game
+ok 140 - a ready-patched image selected as a hack points to Add Game
+  ---
+  duration_ms: 0.108864
+  type: 'test'
+  ...
+# Subtest: a zero-byte hack ZIP is not represented as a successful package
+ok 141 - a zero-byte hack ZIP is not represented as a successful package
+  ---
+  duration_ms: 0.076015
+  type: 'test'
+  ...
+# Subtest: guidance preserves the zero-game workflow and optional folders
+ok 142 - guidance preserves the zero-game workflow and optional folders
+  ---
+  duration_ms: 0.058868
+  type: 'test'
+  ...
+# Subtest: guidance does not promise patching, conversion or Wii compatibility
+ok 143 - guidance does not promise patching, conversion or Wii compatibility
+  ---
+  duration_ms: 0.127422
+  type: 'test'
+  ...
+# Subtest: createEmpty is a real, clean, non-demo archive with zero games and no placeholder files
+ok 144 - createEmpty is a real, clean, non-demo archive with zero games and no placeholder files
+  ---
+  duration_ms: 2.028155
+  type: 'test'
+  ...
+# Subtest: createEmpty allocates independent archives and reports a missing ZIP library
+ok 145 - createEmpty allocates independent archives and reports a missing ZIP library
+  ---
+  duration_ms: 2.15351
+  type: 'test'
+  ...
+# Subtest: exporting an untouched empty library produces a valid empty ZIP and reimports cleanly
+ok 146 - exporting an untouched empty library produces a valid empty ZIP and reimports cleanly
+  ---
+  duration_ms: 7.418066
+  type: 'test'
+  ...
+# Subtest: a valid zero-entry ZIP is accepted, but a zero-byte non-ZIP is still rejected
+ok 147 - a valid zero-entry ZIP is accepted, but a zero-byte non-ZIP is still rejected
+  ---
+  duration_ms: 1.94102
+  type: 'test'
+  ...
+# Subtest: the first game creates a conventional wbfs path even without existing folders
+ok 148 - the first game creates a conventional wbfs path even without existing folders
+  ---
+  duration_ms: 6.073006
+  type: 'test'
+  ...
+# Subtest: apps-only and settings-only content remains byte-identical after adding the first game
+ok 149 - apps-only and settings-only content remains byte-identical after adding the first game
+  ---
+  duration_ms: 6.635995
+  type: 'test'
+  ...
+# Subtest: directory-only archives preserve empty directories through add/remove/export
+ok 150 - directory-only archives preserve empty directories through add/remove/export
+  ---
+  duration_ms: 3.833325
+  type: 'test'
+  ...
+# Subtest: recognizes a wrapped SD with only empty known directories
+ok 151 - recognizes a wrapped SD with only empty known directories
+  ---
+  duration_ms: 3.840546
+  type: 'test'
+  ...
+# Subtest: recognizes wrapped empty directories even without an explicit wrapper directory entry
+ok 152 - recognizes wrapped empty directories even without an explicit wrapper directory entry
+  ---
+  duration_ms: 1.275024
+  type: 'test'
+  ...
+# Subtest: never strips a real apps or wbfs root when the archive has no game files
+ok 153 - never strips a real apps or wbfs root when the archive has no game files
+  ---
+  duration_ms: 2.336998
+  type: 'test'
+  ...
+# Subtest: a standalone unknown empty folder is kept, not guessed to be an SD wrapper
+ok 154 - a standalone unknown empty folder is kept, not guessed to be an SD wrapper
+  ---
+  duration_ms: 1.4378
+  type: 'test'
+  ...
+# Subtest: extra top-level empty directories prevent destructive wrapper guessing
+ok 155 - extra top-level empty directories prevent destructive wrapper guessing
+  ---
+  duration_ms: 1.568186
+  type: 'test'
+  ...
+# Subtest: an apps-only wrapper can be stripped before adding the first game
+ok 156 - an apps-only wrapper can be stripped before adding the first game
+  ---
+  duration_ms: 3.061049
+  type: 'test'
+  ...
+# Subtest: ROM-hack install/remove is allowed with zero games and round-trips back to empty
+ok 157 - ROM-hack install/remove is allowed with zero games and round-trips back to empty
+  ---
+  duration_ms: 8.872861
+  type: 'test'
+  ...
+# Subtest: after removing the last game the same library can accept another first game
+ok 158 - after removing the last game the same library can accept another first game
+  ---
+  duration_ms: 0.448898
+  type: 'test'
+  ...
+# Subtest: an empty library does not accept empty game files or an empty hack package
+ok 159 - an empty library does not accept empty game files or an empty hack package
+  ---
+  duration_ms: 0.280403
+  type: 'test'
+  ...
+1..159
+# tests 159
+# suites 0
+# pass 159
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 633.981438

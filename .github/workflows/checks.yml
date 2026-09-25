@@ -1,0 +1,37 @@
+# Validation only; publish via Settings > Pages > main > /(root).
+name: Repository checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      large_files:
+        description: Run real multi-GiB temporary-disk tests (about 8 GiB disk required)
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Verify committed build and Node regression/HTTP tests
+        run: npm run verify
+      - name: Test interruption boundaries with simulated storage
+        run: npm run test:faults
+      - name: Test real large temporary files (manual opt-in)
+        if: github.event_name == 'workflow_dispatch' && inputs.large_files
+        run: npm run test:large

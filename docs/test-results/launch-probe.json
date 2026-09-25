@@ -1,0 +1,15 @@
+{
+  "tests": [
+    {
+      "mode": "project-http",
+      "status": "blocked",
+      "message": "Page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at http://127.0.0.1:50349/wii-game-manager/\nCall log:\n  - navigating to \"http://127.0.0.1:50349/wii-game-manager/\", waiting until \"load\"\n"
+    },
+    {
+      "mode": "portable-file",
+      "status": "blocked",
+      "message": "Page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at file:///mnt/data/wii-v3-work/wii-game-manager/Wii-SD-Manager.html\nCall log:\n  - navigating to \"file:///mnt/data/wii-v3-work/wii-game-manager/Wii-SD-Manager.html\", waiting until \"load\"\n"
+    }
+  ],
+  "note": "Actual navigation with unmodified policy. No native OS directory-picker selection, disk write permission, SD hardware or Wii gameplay exercised."
+}

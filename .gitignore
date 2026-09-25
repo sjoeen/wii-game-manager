@@ -1,0 +1,47 @@
+# Development outputs, not website source
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+*.log
+coverage/
+playwright-report/
+/test-results/
+test/*-results*.json
+test/*-results*.txt
+.env
+.env.*
+*.pem
+*.key
+
+# Never commit your SD backup, game collection, mods, or exported archives.
+# This only helps with `git add`; it does NOT filter files uploaded on github.com.
+*.zip
+*.7z
+*.rar
+*.wbfs
+*.wbf[0-9]*
+*.iso
+*.gcm
+*.ciso
+*.rvz
+*.wad
+*.dol
+*.elf
+*.bin
+*.sav
+*.raw
+*.img
+sd-card/
+backups/
+exports/
+.wii-game-manager/
+
+# Explicitly allow only the small, NON-PLAYABLE fixtures supplied in this repository.
+!/demo/Demo-SD-card.zip
+!/demo/Demo-add-on.zip
+!/demo/New-Game*.wbfs
+!/demo/New-Game*.wbf1

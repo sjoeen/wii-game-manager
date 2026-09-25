@@ -1,0 +1,2 @@
+# Development/browser tests only. Not needed for hosting or using the site.
+playwright==1.57.0

@@ -1,0 +1,31 @@
+{
+  "name": "wii-game-manager",
+  "version": "3.0.0",
+  "description": "Local Wii SD/USB game manager with streamed folder access and a small-ZIP fallback",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "check:build": "node build.mjs --check",
+    "test": "node --test test/model.test.mjs test/zero-games.test.mjs test/upload-specs.test.mjs test/site.test.mjs test/folder.test.mjs",
+    "verify": "npm run check:build && npm test",
+    "start": "node scripts/serve.mjs",
+    "serve": "node scripts/serve.mjs",
+    "test:browser": "python3 test/browser_v3.py",
+    "test:launch": "python3 test/launch_modes_test.py",
+    "demo:generate": "node make-demo.mjs",
+    "start:pages": "node scripts/serve.mjs --base /wii-game-manager/",
+    "test:pages": "node --test test/site.test.mjs",
+    "test:large": "node --max-old-space-size=192 test/large-files.mjs",
+    "test:faults": "node test/fault-sweep.mjs"
+  },
+  "homepage": "https://sjoeen.github.io/wii-game-manager/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sjoeen/wii-game-manager.git"
+  }
+}

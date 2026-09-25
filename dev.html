@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#eeeeee">
+  <meta name="description" content="Manage games on your existing Wii SD or USB folder. Stream large files, review pending changes, and apply them locally. Small-ZIP fallback included.">
+  <title>Wii SD Manager · Menu Edition v3.0.0</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="landing-mode">
+  <svg class="svg-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sdFill" x2=".6" y2="1"><stop stop-color="#ffffff"/><stop offset=".55" stop-color="#f1f5f5"/><stop offset="1" stop-color="#c9d3d6"/></linearGradient>
+      <linearGradient id="sdLabel" x2="0" y2="1"><stop stop-color="#62d6f0"/><stop offset="1" stop-color="#19a5d3"/></linearGradient>
+      <linearGradient id="mailFill" x2="0" y2="1"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#d2e3e9"/></linearGradient>
+      <symbol id="sdArt" viewBox="0 0 120 120">
+        <path d="M30 9h45l17 18v76a8 8 0 0 1-8 8H30a8 8 0 0 1-8-8V17a8 8 0 0 1 8-8Z" fill="url(#sdFill)" stroke="#91a9b1" stroke-width="2"/>
+        <path d="M74 10v18h17" fill="#e4ebed" stroke="#a5b8bf" stroke-width="2"/>
+        <rect x="29" y="39" width="55" height="52" rx="5" fill="url(#sdLabel)"/>
+        <text x="49" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="23" fill="#fff">SD</text>
+        <path d="M70 42v46" stroke="#e5faff" stroke-width="7" stroke-dasharray="4 3"/>
+        <rect x="66" y="49" width="8" height="12" rx="2" fill="#fff" stroke="#8bb5c2"/>
+        <text x="56" y="104" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" letter-spacing="2" fill="#82979e">CARD</text>
+      </symbol>
+      <symbol id="infoArt" viewBox="0 0 150 120">
+        <rect x="15" y="35" width="108" height="71" rx="7" fill="url(#mailFill)" stroke="#a4b4bb" stroke-width="2"/>
+        <path d="m17 103 45-39m59 39L77 65" fill="none" stroke="#c0cfd4" stroke-width="2"/>
+        <path d="m16 37 53 39 53-39" fill="#f9fdfe" stroke="#a4b4bb" stroke-width="2" stroke-linejoin="round"/>
+        <circle cx="113" cy="34" r="26" fill="url(#sdLabel)" stroke="#fff" stroke-width="3"/>
+        <path d="M113 33v17" stroke="#fff" stroke-width="7" stroke-linecap="round"/><circle cx="113" cy="22" r="4" fill="#fff"/>
+      </symbol>
+      <symbol id="mailIcon" viewBox="0 0 60 46"><rect x="3" y="4" width="54" height="38" rx="4" fill="currentColor"/><path d="m5 7 25 18L55 7" fill="none" stroke="#eceeef" stroke-width="3"/></symbol>
+      <symbol id="arrowIcon" viewBox="0 0 40 72"><path d="M5 5 35 36 5 67c6-21 6-41 0-62Z" fill="#8bdcf0" stroke="#69afc6" stroke-width="2"/><path d="m9 11 20 25L9 57c4-16 4-31 0-46Z" fill="#d1f7ff"/></symbol>
+      <linearGradient id="waveFill" x2="0" y2="1"><stop stop-color="#c5c8ce"/><stop offset=".20" stop-color="#e6e7ea"/><stop offset="1" stop-color="#cbd0da"/></linearGradient>
+    </defs>
+  </svg>
+  <noscript><div class="no-script">Open this HTML in a browser with JavaScript enabled. The manager runs locally; no upload is needed.</div></noscript>
+
+  <main>
+    <section id="dropView" class="wii-landing" aria-label="Wii SD Manager home">
+      <div id="menuScreen" class="menu-screen">
+        <h1 class="sr-only">Wii SD Manager</h1>
+        <div class="mobile-preview" aria-label="SD Card Channel preview">
+          <div class="preview-header">SD Card Channel</div>
+          <div class="preview-art"><span class="preview-disc" aria-hidden="true">Wii</span><svg aria-hidden="true"><use href="#sdArt"/></svg><span class="preview-disc small-disc" aria-hidden="true">USB</span></div>
+          <p>Your existing Wii card · no whole-library ZIP.</p>
+          <div class="preview-actions"><button id="previewInfo" class="wii-pill" type="button">Information</button><button id="previewOpen" aria-describedby="landingUploadHint" class="wii-pill blue" type="button">Open folder</button></div>
+        </div>
+        <div class="menu-upload-help"><span id="landingUploadHint">Select your existing Wii SD/USB root folder.</span><button id="openSmallZipBtn" class="help-link" type="button">Open small ZIP instead</button><button id="landingUploadHelp" class="help-link" type="button">Files &amp; requirements</button></div>
+        <div id="gridViewport" class="grid-viewport">
+          <div class="channel-page" id="channelPage1" role="group" aria-label="Menu page 1 of 4">
+            <div class="channel-slot">
+              <button id="dropZone" class="channel active-channel sd-channel" type="button" aria-label="Open SD or USB folder" title="Open the root folder of your existing Wii card or USB drive" aria-describedby="landingUploadHint">
+                <span class="channel-art"><svg aria-hidden="true"><use href="#sdArt"/></svg></span>
+                <span class="channel-title">Open SD / USB</span>
+              </button><span class="channel-caption" aria-hidden="true">Open SD / USB</span>
+            </div>
+            <div class="channel-slot">
+              <button id="infoChannel" class="channel active-channel info-channel" type="button" aria-label="Important Information" title="Important Information">
+                <span class="channel-art"><svg aria-hidden="true"><use href="#infoArt"/></svg></span>
+                <span class="channel-title">Important<br>Information</span>
+              </button><span class="channel-caption" aria-hidden="true">Important<br>Information</span>
+            </div>
+            <div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div>
+          </div>
+          <div class="channel-page" id="channelPage2" role="group" aria-label="Menu page 2 of 4" hidden><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div></div>
+<div class="channel-page" id="channelPage3" role="group" aria-label="Menu page 3 of 4" hidden><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div></div>
+<div class="channel-page" id="channelPage4" role="group" aria-label="Menu page 4 of 4" hidden><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div><div class="channel-slot" aria-hidden="true"><div class="channel empty-channel"></div></div></div>
+        </div>
+        <button id="previousPage" class="page-arrow previous-page" type="button" aria-label="Previous menu page" hidden><svg aria-hidden="true"><use href="#arrowIcon"/></svg></button>
+        <button id="nextPage" class="page-arrow next-page" type="button" aria-label="Next menu page"><svg aria-hidden="true"><use href="#arrowIcon"/></svg></button>
+        <div id="pageAnnouncement" class="sr-only" role="status">Menu page 1 of 4</div>
+        <footer class="wii-footer">
+          <svg class="footer-wave" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 16H139C228 16 251 97 350 98H650C749 97 772 16 861 16H1000V220H0Z" fill="url(#waveFill)"/>
+            <path d="M0 15H139C228 15 251 96 350 97H650C749 96 772 15 861 15H1000" fill="none" stroke="#75cce2" stroke-width="4"/>
+            <path d="M0 11H139C228 11 251 92 350 93H650C749 92 772 11 861 11H1000" fill="none" stroke="#f3ffff" stroke-width="2"/>
+            <path d="M0 193H103C144 193 163 156 163 134" fill="none" stroke="#b5bbc3" stroke-width="4" opacity=".55"/>
+            <path d="M1000 193H897C856 193 837 156 837 134" fill="none" stroke="#b5bbc3" stroke-width="4" opacity=".55"/>
+          </svg>
+          <button id="wiiMenuButton" class="system-button wii-button" type="button" aria-label="Return to first menu page" title="Wii Menu"><span>Wii</span></button>
+          <button id="sdButton" class="sd-button" type="button" aria-label="Open SD or USB folder" title="Open existing Wii folder"><svg aria-hidden="true"><use href="#sdArt"/></svg></button>
+          <div class="footer-clock">
+            <div id="landingTime" class="digital-time" role="img" aria-label="Local time"></div>
+            <div id="landingDate" class="footer-date"></div>
+          </div>
+          <button id="mailButton" class="system-button mail-button" type="button" aria-label="Open important information" title="Important Information"><svg aria-hidden="true"><use href="#mailIcon"/></svg><span aria-hidden="true">1</span></button>
+          <nav class="page-dots" aria-label="Menu pages">
+            <button type="button" data-page="0" aria-label="Menu page 1" aria-current="page"></button>
+            <button type="button" data-page="1" aria-label="Menu page 2"></button>
+            <button type="button" data-page="2" aria-label="Menu page 3"></button>
+            <button type="button" data-page="3" aria-label="Menu page 4"></button>
+          </nav>
+        </footer>
+        <div id="dragOverlay" class="drag-overlay" hidden><svg aria-hidden="true"><use href="#sdArt"/></svg><strong>Drop one SD-card .zip</strong><span>Files and folders from your card. Zero games is OK.</span><span>It stays on this device.</span></div>
+        <p class="sr-only">Choose Open SD / USB for direct folder access. Open small ZIP instead is the in-memory fallback. Homebrew must already be set up; this tool is not an installer.</p>
+      </div>
+    </section>
+
+    <section id="managerView" class="manager-shell" aria-label="Wii library manager" hidden>
+      <header class="topbar">
+        <button id="newArchiveBtn" class="wii-pill" type="button" title="Close this archive and return to the menu">‹ Wii Menu</button>
+        <div class="manager-brand"><strong>Wii SD Manager</strong><span>Folder + ZIP manager · v3.0.0</span></div>
+        <div class="top-actions"><button id="managerInfoBtn" class="round-help" type="button" aria-label="Important Information">?</button><button id="undoBtn" class="wii-pill" type="button" disabled>Undo</button><button id="exportBtn" class="wii-pill blue" type="button">Export ZIP</button></div>
+      </header>
+      <div class="archive-bar"><div><span class="status-dot"></span><strong id="archiveName"></strong><span id="archiveStats" class="muted"></span></div><span id="dirtyBadge" class="badge" hidden>Not exported</span></div>
+      <div id="demoNotice" class="notice demo-notice" hidden><strong>Demo archive.</strong> These are tiny, non-playable placeholders—not real games or Wii software. Use them to try adding, removing, and exporting. Do not put this demo on a Wii.</div>
+      <div id="warningBox" class="notice warning" hidden></div>
+      <aside id="folderStatus" class="folder-status" hidden>
+        <div><strong>Direct folder · FAT32-safe writes</strong><p id="folderStatusText">Only staged changes will be applied. Nothing is uploaded.</p></div>
+        <div class="folder-actions"><button id="refreshFolderBtn" class="wii-pill" type="button">Refresh</button><button id="discardEditsBtn" class="wii-pill" type="button" disabled>Discard staged</button></div>
+      </aside>
+      <aside id="pendingPanel" class="notice pending-panel" hidden><div><strong>Pending changes</strong><p id="pendingSummary"></p></div><button id="reviewChangesBtn" class="wii-pill blue" type="button">Review &amp; apply</button></aside>
+      <aside id="recoveryPanel" class="notice warning recovery-panel" hidden><div><strong>Interrupted operation needs review</strong><p id="recoverySummary"></p></div><button id="recoveryBtn" class="wii-pill" type="button">Review recovery</button></aside>
+      <div class="toolbar"><div class="tabs" role="tablist" aria-label="Archive contents">
+        <button id="gamesTab" class="tab active" data-tab="games" role="tab" aria-selected="true" aria-controls="content" type="button">Games <span id="gameCount">0</span></button>
+        <button id="hacksTab" class="tab" data-tab="hacks" role="tab" aria-selected="false" aria-controls="content" tabindex="-1" type="button">ROM Hacks <span id="hackCount">0</span></button>
+        <button id="filesTab" class="tab" data-tab="files" role="tab" aria-selected="false" aria-controls="content" tabindex="-1" type="button">All Files <span id="fileCount">0</span></button>
+      </div><div class="toolbar-actions"><label class="search"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search this library" aria-label="Search this library"></label><button id="addBtn" aria-describedby="libraryUploadHint" class="wii-pill blue" type="button">+ Add game</button></div></div>
+      <aside id="libraryUploadGuide" class="upload-guide" aria-label="File requirements"><div><strong id="uploadGuideTitle">Add Game · .wbfs / .iso</strong><p id="libraryUploadHint"></p></div><button id="libraryUploadHelp" class="help-link" type="button">Accepted files &amp; examples</button></aside>
+      <div id="content" role="tabpanel" aria-labelledby="gamesTab"></div>
+      <p id="managerFootnote" class="manager-footnote">ZIP mode creates a separate edited copy.</p>
+    </section>
+  </main>
+  <input id="zipInput" aria-label="Choose SD-card ZIP" aria-describedby="landingUploadHint" type="file" accept=".zip,application/zip" hidden>
+  <input id="gameInput" aria-label="Choose Wii game files" type="file" accept=".wbfs,.iso,.wbf1,.wbf2,.wbf3,.wbf4,.wbf5,.wbf6,.wbf7,.wbf8,.wbf9" multiple hidden>
+  <input id="hackInput" aria-label="Choose SD-ready ROM-hack ZIP" type="file" accept=".zip,application/zip" hidden>
+
+  <dialog id="infoDialog" class="dialog info-dialog" aria-labelledby="infoTitle">
+    <div class="dialog-banner"><span>Message Board</span><button id="infoCloseBtn" data-close="infoDialog" class="close-button" type="button" aria-label="Close important information">×</button></div>
+    <div class="dialog-body info-copy"><div class="info-heading"><svg aria-hidden="true"><use href="#infoArt"/></svg><div><p class="eyebrow">Wii SD Manager · v3.0.0</p><h2 id="infoTitle" tabindex="-1">Important Information</h2></div></div>
+      <p class="info-intro">Your SD card. Your files. All on your device.</p>
+      <div class="info-section"><h3>1. Open an existing Wii card</h3><p>Choose <strong>Open SD / USB</strong> and select the card’s root folder, or a backup of it. It should contain <code>apps/</code>, <code>wbfs/</code>, or other Wii folders. Your Wii’s homebrew and loader setup must already exist. This manager does not prepare, format, or install homebrew on an empty card.</p><p>Folder mode lists file metadata, stages your changes, and copies added games in <strong>4 MiB chunks</strong>. The combined library is <strong>not capped at 4 GiB</strong>. The number of games is not capped. Existing homebrew cards with no games yet are supported.</p><p id="folderSupportNote"></p><p>Use <strong>Review &amp; apply</strong> to inspect every affected path. Only the final <strong>Apply to selected folder</strong> button starts disk changes. Unrelated apps, saves, and settings stay in place.</p></div>
+      <div class="info-section"><h3>2. Which files should you choose?</h3><p>Folder, game, and ZIP controls accept different inputs. Open a section for accepted files, folder examples, and what is not supported. Renaming a file’s extension does not convert it.</p><div id="infoUploadSpecs"></div></div>
+      <div class="info-section"><h3>3. Backup, filesystem, and recovery</h3><p><strong>Keep a separate backup and do not unplug the card during Apply.</strong> Pending edits have one-step Undo and Discard; applied removals are permanent. Writes are copied and read back for a CRC32 check before any removals begin. Replaced files have disk-backed rollback copies; an interrupted operation offers recovery when the folder is reopened.</p><p>Recovery cannot make a multi-file change atomic or protect against a failed card. Do not edit the same files in another app while applying changes. Extra free space is needed for writes, native temporary files, and replacement backups. The browser cannot reliably tell this app how much free space your SD card has.</p><p><strong>FAT32 still limits each file.</strong> Oversized WBFS files with a WBFS header are copied as byte-contiguous parts of at most 2 GiB. Large ISO files must be converted to suitable WBFS files outside this tool; renaming is not conversion. The source game file is never changed.</p></div>
+      <div class="info-section"><h3>4. Small-ZIP fallback</h3><p><strong>Open small ZIP instead</strong> keeps the earlier archive editor. It is limited to below approximately 4 GiB uncompressed and may run out of memory below that. Use it for small homebrew/mod archives, not whole game collections. Export creates a new ZIP and does not write to your card; copying an export over old files does not remove deleted files.</p><p>ROM-hack ZIP packages in folder mode are limited to <strong>256 MiB uncompressed</strong>. Larger ready-patched game files belong in Add Game. Untracked Riivolution removal only includes its XML and matching folder; other patch locations are left alone.</p></div>
+      <div class="demo-box"><div><strong>Try the small-ZIP interface</strong><p>Load two pretend games and a pretend hack. No downloads or real game data required.</p></div><button id="demoBtn" class="wii-pill blue" type="button">Try ZIP demo</button></div>
+      <p class="fine-print">No server upload, account, analytics, remote assets, or background network requests. Files are not executed. Not affiliated with Nintendo. This manager does not modify Wii system software.</p>
+    </div>
+    <div class="dialog-actions"><button id="infoMenuBtn" data-close="infoDialog" class="wii-pill" type="button">Wii Menu</button><button id="infoGotItBtn" data-close="infoDialog" class="wii-pill blue" type="button">Got it</button></div>
+  </dialog>
+
+  <dialog id="uploadHelpDialog" class="dialog upload-help-dialog" aria-labelledby="uploadHelpTitle">
+    <div class="dialog-banner"><span>SD Card Channel</span><button data-close="uploadHelpDialog" class="close-button" type="button" aria-label="Close file requirements">×</button></div>
+    <div class="dialog-body"><h2 id="uploadHelpTitle">Which files should I choose?</h2><p class="upload-help-intro">Choose the input that matches your files. Everything stays on this device; nothing is uploaded to a server.</p><div id="uploadHelpSections"></div><p class="fine-print">Folder mode streams game files and has no combined 4 GiB cap. ZIP fallback remains memory-limited. Keep a backup; this manager is not a Wii installer.</p></div>
+    <div class="dialog-actions"><button data-close="uploadHelpDialog" class="wii-pill" type="button">Back</button><button id="uploadHelpChooseBtn" class="wii-pill blue" type="button">Choose SD-card ZIP</button></div>
+  </dialog>
+
+  <dialog id="confirmDialog" class="dialog" aria-labelledby="confirmTitle"><div class="dialog-banner"><span>Confirm change</span><button data-close="confirmDialog" type="button" class="close-button" aria-label="Cancel">×</button></div><div class="dialog-body"><h2 id="confirmTitle"></h2><p id="confirmText"></p><div id="confirmPaths" class="path-list"></div></div><div id="confirmActions" class="dialog-actions"></div></dialog>
+
+  <dialog id="hackDialog" class="dialog" aria-labelledby="hackTitle"><div class="dialog-banner"><span>SD Card Channel</span><button data-close="hackDialog" class="close-button" type="button" aria-label="Cancel adding ROM hack">×</button></div><div class="dialog-body"><h2 id="hackTitle">Add ROM hack package</h2><p class="upload-context-note"><strong>Expected:</strong> one SD-ready <code>.zip</code> with the complete mod layout. This screen merges files; it does not apply raw patches or install channels.</p><p id="hackSummary"></p><label class="field">Display name<input id="hackName" maxlength="80" autocomplete="off"></label><label class="check"><input id="stripRoot" type="checkbox"> Use the contents of the package’s outer folder</label><p id="hackPlanNote" class="notice"></p><div id="hackPreview" class="path-list"></div><p class="fine-print">This merges files, not patches. Existing files listed as “Replace” are backed up in the selected storage and restored when you remove this tracked package. In folder mode, nothing is written until Apply.</p></div><div class="dialog-actions"><button data-close="hackDialog" class="wii-pill" type="button">Cancel</button><button id="confirmHack" class="wii-pill blue" type="button">Add package</button></div></dialog>
+
+  <dialog id="errorDialog" class="dialog" aria-labelledby="errorTitle"><div class="dialog-banner"><span>Wii SD Manager</span><button data-close="errorDialog" type="button" class="close-button" aria-label="Close message">×</button></div><div class="dialog-body"><h2 id="errorTitle">Could not complete that action</h2><p id="errorText" class="error-text"></p><p id="errorSafetyNote" class="muted">Review the current library status before continuing.</p></div><div class="dialog-actions"><button data-close="errorDialog" class="wii-pill blue" type="button">OK</button></div></dialog>
+
+  <dialog id="exportDialog" class="dialog" aria-labelledby="exportTitle"><div class="dialog-banner"><span>SD Card Channel</span><button data-close="exportDialog" type="button" class="close-button" aria-label="Close export information">×</button></div><div class="dialog-body"><h2 id="exportTitle">Your edited ZIP is ready</h2><p id="exportDescription"></p><p>The download should start automatically. Use the button below to save it again if it did not. Save this copy before closing the manager.</p><p class="notice warning">Extract into a <strong>separate folder</strong> and review it first. Simply copying it over your existing card will not remove files you deleted here. Keep your original backup.</p><a id="downloadLink" class="wii-pill blue download-button" download>Save edited ZIP</a></div><div class="dialog-actions"><button data-close="exportDialog" class="wii-pill" type="button">Back to manager</button></div></dialog>
+
+  <dialog id="progressDialog" class="dialog progress-dialog" aria-labelledby="progressTitle" aria-describedby="progressText"><div class="dialog-body"><div class="spinner" aria-hidden="true"></div><h2 id="progressTitle">Working…</h2><p id="progressText">Please keep this tab open.</p><progress id="progressBar" max="100" value="0" aria-label="Progress"></progress><button id="cancelCopyBtn" class="wii-pill" type="button" hidden>Cancel copy &amp; roll back</button></div></dialog>
+
+  <dialog id="applyDialog" class="dialog" aria-labelledby="applyTitle">
+    <div class="dialog-banner"><span>Review disk changes</span><button data-close="applyDialog" type="button" class="close-button" aria-label="Cancel disk changes">×</button></div>
+    <div class="dialog-body"><h2 id="applyTitle">Apply to selected folder?</h2><p id="applyLocation"></p><p id="applyTotals"></p><div id="applyPaths" class="path-list"></div><p id="applySpace" class="notice"></p><p class="notice warning">Changes will affect this folder, not a new ZIP. Removals are permanent once applied. New copies are completed before removals; on a nearly full card, apply removals separately first. Keep a separate backup and leave the card connected.</p><label class="check"><input id="applyAcknowledge" type="checkbox"> I reviewed the paths and understand that applied removals cannot be undone here.</label></div>
+    <div class="dialog-actions"><button data-close="applyDialog" class="wii-pill" type="button">Not now</button><button id="applyConfirmBtn" class="wii-pill blue" type="button" disabled>Apply to selected folder</button></div>
+  </dialog>
+  <dialog id="recoveryDialog" class="dialog" aria-labelledby="recoveryTitle">
+    <div class="dialog-banner"><span>Disk recovery</span><button data-close="recoveryDialog" type="button" class="close-button" aria-label="Close recovery review">×</button></div>
+    <div class="dialog-body"><h2 id="recoveryTitle">Review interrupted operation</h2><p id="recoveryExplanation"></p><div id="recoveryPaths" class="path-list"></div><p class="notice warning">Keep your backup. Recovery touches only the recorded paths and stops on conflicting file changes. This does not reverse removals already completed.</p></div>
+    <div class="dialog-actions"><button data-close="recoveryDialog" class="wii-pill" type="button">Not now</button><button id="recoveryConfirmBtn" class="wii-pill blue" type="button">Run reviewed recovery</button></div>
+  </dialog>
+  <dialog id="operationDialog" class="dialog" aria-labelledby="operationTitle">
+    <div class="dialog-banner"><span>Folder operation</span><button data-close="operationDialog" type="button" class="close-button" aria-label="Close operation report">×</button></div>
+    <div class="dialog-body"><h2 id="operationTitle"></h2><p id="operationText"></p><button id="saveOperationBtn" class="wii-pill" type="button">Save operation report</button></div>
+    <div class="dialog-actions"><button data-close="operationDialog" class="wii-pill blue" type="button">Back to manager</button></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="fatalError" class="no-script" role="alert" hidden></div>
+  <script src="vendor/jszip.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

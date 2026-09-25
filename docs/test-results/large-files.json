@@ -1,0 +1,36 @@
+{
+  "test": "actual-disk-large-files",
+  "node": "v22.16.0",
+  "bufferBytes": 4194304,
+  "heapLimitMiB": 192,
+  "results": [
+    {
+      "name": "24 GiB existing library inventory",
+      "passed": true,
+      "games": 8,
+      "totalBytes": 25769803805,
+      "note": "Eight actual sparse files; only metadata is scanned."
+    },
+    {
+      "name": "2.03125 GiB game copy + readback verification",
+      "passed": true,
+      "bytes": 2181038080,
+      "result": {
+        "status": "completed",
+        "written": 1,
+        "removed": 0
+      },
+      "sha256": "0d3ae67f4c122989feca8a99d566f8ffafcc663a33997e4b1d41c577ed07b15c"
+    },
+    {
+      "name": "5 GiB WBFS streamed into 2 + 2 + 1 GiB split set",
+      "passed": true,
+      "bytes": 5368709120,
+      "sha256": "7a6ecd087a63097a59664edc8f2a37f90e0884a8c367967685114bec26548b9a"
+    }
+  ],
+  "maxObservedWriteBytes": 4194304,
+  "peakProcessRSSBytes": 103444480,
+  "durationSeconds": 75.23,
+  "limits": "Real temporary disk files and synthetic WBFS headers/data through a Node File System Access adapter. Not physical Wii, FAT32, browser picker, or playable-game validation."
+}

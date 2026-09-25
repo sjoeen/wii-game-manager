@@ -1,0 +1,77 @@
+{
+  "test": "simulated-disconnect-sweep",
+  "mutationBoundaries": 147,
+  "passed": true,
+  "rolledBack": 111,
+  "finished": 19,
+  "withoutRemainingJournal": 4,
+  "manualReviewStops": [
+    {
+      "cut": 4,
+      "event": "create",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "An incomplete recovery folder has no journal: .wii-game-manager/transactions/txn-ID"
+    },
+    {
+      "cut": 5,
+      "event": "write",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Could not read recovery journal. Keep your backup and inspect the recovery folder."
+    },
+    {
+      "cut": 6,
+      "event": "close",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Could not read recovery journal. Keep your backup and inspect the recovery folder."
+    },
+    {
+      "cut": 35,
+      "event": "write",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at .wii-game-manager/backups/hack-a715155c-6eca-4003-9e19-f9e28a9e8377/config/original.txt. No unrelated file was deleted."
+    },
+    {
+      "cut": 36,
+      "event": "close",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at .wii-game-manager/backups/hack-adbb4c17-9882-4f11-9c46-80a551d1824c/config/original.txt. No unrelated file was deleted."
+    },
+    {
+      "cut": 70,
+      "event": "write",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at riivolution/Test.xml. No unrelated file was deleted."
+    },
+    {
+      "cut": 71,
+      "event": "close",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at riivolution/Test.xml. No unrelated file was deleted."
+    },
+    {
+      "cut": 90,
+      "event": "write",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at wbfs/New [DEME02]/DEME02.wbfs. No unrelated file was deleted."
+    },
+    {
+      "cut": 91,
+      "event": "close",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at wbfs/New [DEME02]/DEME02.wbfs. No unrelated file was deleted."
+    },
+    {
+      "cut": 109,
+      "event": "write",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at .wii-game-manager/manifest.json. No unrelated file was deleted."
+    },
+    {
+      "cut": 110,
+      "event": "close",
+      "path": ".wii-game-manager/transactions/txn-ID/journal.json",
+      "reason": "Recovery stopped: unexpected contents at .wii-game-manager/manifest.json. No unrelated file was deleted."
+    }
+  ],
+  "limits": "File System Access test double. A conservative manual stop is expected when a newly created file exists before its identity was durably journaled, or the initial journal was never committed. Not an OS power-loss guarantee."
+}
